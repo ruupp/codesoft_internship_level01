@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rupchand — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1420;
+    --panel:#161C2B;
+    --panel-2:#1D2536;
+    --line:#2A3348;
+    --text:#E8ECF4;
+    --muted:#8A93A6;
+    --amber:#F2A649;
+    --teal:#5FD4C4;
+    --rose:#E27D8E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+  }
+  ::selection{background:var(--amber); color:var(--ink);}
+
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* Tab bar nav — signature element: file-explorer style navigation */
+  .tabbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center;
+    background:var(--panel);
+    border-bottom:1px solid var(--line);
+    overflow-x:auto;
+    padding:0 12px;
+  }
+  .tabbar .dots{display:flex; gap:6px; padding:14px 14px 14px 4px; flex-shrink:0;}
+  .tabbar .dots span{width:10px; height:10px; border-radius:50%; display:block;}
+  .dots span:nth-child(1){background:#E5645A;}
+  .dots span:nth-child(2){background:#E6B450;}
+  .dots span:nth-child(3){background:#59C777;}
+  .tab{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    text-decoration:none;
+    padding:14px 16px;
+    border-right:1px solid var(--line);
+    white-space:nowrap;
+    transition:.2s;
+    flex-shrink:0;
+  }
+  .tab:hover{color:var(--text); background:var(--panel-2);}
+  .tab .ext{color:var(--teal); opacity:.7;}
+
+  section{padding:90px 24px; max-width:920px; margin:0 auto;}
+
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--amber);
+    letter-spacing:.08em;
+    display:flex; align-items:center; gap:8px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{content:"//"; color:var(--muted);}
+
+  /* HERO */
+  .hero{
+    min-height:88vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding-top:60px;
+  }
+  .hero h1{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;
+    font-size:clamp(38px, 8vw, 74px);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 .fn{color:var(--amber);}
+  .cursor{
+    display:inline-block; width:.5em; background:var(--teal);
+    animation:blink 1s steps(1) infinite; margin-left:4px;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .hero p.tagline{
+    margin-top:22px; font-size:19px; color:var(--muted); max-width:560px;
+  }
+  .hero .cta-row{display:flex; gap:14px; margin-top:36px; flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13.5px;
+    padding:13px 22px;
+    border-radius:6px;
+    text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:.2s;
+  }
+  .btn-solid{background:var(--amber); color:var(--ink); font-weight:700;}
+  .btn-solid:hover{background:#ffb968;}
+  .btn-outline{border:1px solid var(--line); color:var(--text);}
+  .btn-outline:hover{border-color:var(--teal); color:var(--teal);}
+
+  h2.section-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:clamp(26px,4vw,36px);
+    font-weight:700;
+    margin-bottom:34px;
+  }
+  h2.section-title span{color:var(--teal);}
+
+  /* ABOUT */
+  .about-grid{
+    display:grid; grid-template-columns:220px 1fr; gap:44px; align-items:start;
+  }
+  .photo-wrap{
+    width:220px; height:220px; border-radius:14px; overflow:hidden;
+    border:1px solid var(--line); background:var(--panel-2);
+    position:relative;
+  }
+  .photo-wrap img{width:100%; height:100%; object-fit:cover; display:block;}
+  .about-grid p{color:#C6CCDA; font-size:16px; margin-bottom:14px;}
+
+  /* SKILLS — json-object styled cards */
+  .skills-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:14px;
+  }
+  .skill-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px 18px;
+    transition:.2s;
+  }
+  .skill-card:hover{border-color:var(--amber); transform:translateY(-3px);}
+  .skill-card .key{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
+  .skill-card .val{font-family:'JetBrains Mono',monospace; font-size:17px; font-weight:700; color:var(--text); margin-top:6px;}
+  .skill-card .bar{height:4px; background:var(--line); border-radius:2px; margin-top:14px; overflow:hidden;}
+  .skill-card .bar i{display:block; height:100%; background:var(--teal); border-radius:2px;}
+
+  /* PROJECTS */
+  .project-list{display:flex; flex-direction:column; gap:16px;}
+  .project{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px;
+    display:grid; grid-template-columns:auto 1fr; gap:20px;
+  }
+  .project .idx{font-family:'JetBrains Mono',monospace; color:var(--amber); font-weight:700; font-size:20px;}
+  .project h3{font-size:19px; margin-bottom:6px;}
+  .project p{color:var(--muted); font-size:14.5px;}
+  .project .tags{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;}
+  .project .tags span{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    background:var(--panel-2); color:var(--teal);
+    padding:4px 9px; border-radius:20px; border:1px solid var(--line);
+  }
+
+  /* RESUME */
+  .resume-box{
+    background:var(--panel);
+    border:1px dashed var(--line);
+    border-radius:12px;
+    padding:38px;
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:20px;
+  }
+  .resume-box .label{font-family:'JetBrains Mono',monospace; color:var(--muted); font-size:13px;}
+  .resume-box .filename{font-size:20px; font-weight:600; margin-top:6px;}
+
+  /* CONTACT */
+  .contact-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;}
+  .contact-item{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:20px; text-decoration:none; color:var(--text);
+    transition:.2s;
+  }
+  .contact-item:hover{border-color:var(--rose);}
+  .contact-item .key{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--rose);}
+  .contact-item .value{margin-top:6px; font-size:15px; word-break:break-word;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:26px 24px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px; color:var(--muted);
+  }
+
+  @media(max-width:640px){
+    .about-grid{grid-template-columns:1fr;}
+    .photo-wrap{width:150px; height:150px;}
+    .project{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="tabbar">
+  <div class="dots"><span></span><span></span><span></span></div>
+  <a class="tab" href="#about">about<span class="ext">.md</span></a>
+  <a class="tab" href="#skills">skills<span class="ext">.json</span></a>
+  <a class="tab" href="#projects">projects<span class="ext">/</span></a>
+  <a class="tab" href="#resume">resume<span class="ext">.pdf</span></a>
+  <a class="tab" href="#contact">contact<span class="ext">.sh</span></a>
+</nav>
+
+<!-- HERO / HEADER -->
+<section class="hero" id="home">
+  <div class="eyebrow">whoami</div>
+  <h1>Hi, I'm <span class="fn">Rupchand</span><span class="cursor">&nbsp;</span></h1>
+  <p class="tagline">Building things for the web with Python and Java underneath. I like clean code, fast pages, and shipping projects that actually work.</p>
+  <div class="cta-row">
+    <a class="btn btn-solid" href="#contact">Get in touch</a>
+    <a class="btn btn-outline" href="#resume">View resume</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="eyebrow">section 01</div>
+  <h2 class="section-title">About <span>me</span></h2>
+  <div class="about-grid">
+    <div class="photo-wrap">
+      <img src="https://lh3.googleusercontent.com/d/1-tcsxBx8yiPcZ8OlgCfbBN7e13M-EDvK"
+           alt="Rupchand"
+           onerror="this.onerror=null;this.src='https://drive.google.com/uc?export=view&id=1-tcsxBx8yiPcZ8OlgCfbBN7e13M-EDvK';">
+    </div>
+    <div>
+      <p>I'm Rupchand, a web developer based in Meerut, UP, focused on building clean and functional websites and applications.</p>
+      <p>Alongside HTML, CSS and JavaScript, I work with Python and Java for backend logic, automation, and problem-solving — I enjoy the whole stack, from pixels on screen to logic underneath.</p>
+      <p>Always learning, always building — currently sharpening my skills through real projects rather than tutorials.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="eyebrow">section 02</div>
+  <h2 class="section-title">Skills <span>&amp; stack</span></h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="key">frontend</div>
+      <div class="val">Web Development</div>
+      <div class="bar"><i style="width:88%;"></i></div>
+    </div>
+    <div class="skill-card">
+      <div class="key">markup</div>
+      <div class="val">HTML &amp; CSS</div>
+      <div class="bar"><i style="width:90%;"></i></div>
+    </div>
+    <div class="skill-card">
+      <div class="key">scripting</div>
+      <div class="val">JavaScript</div>
+      <div class="bar"><i style="width:75%;"></i></div>
+    </div>
+    <div class="skill-card">
+      <div class="key">backend / scripting</div>
+      <div class="val">Python</div>
+      <div class="bar"><i style="width:80%;"></i></div>
+    </div>
+    <div class="skill-card">
+      <div class="key">object-oriented</div>
+      <div class="val">Java</div>
+      <div class="bar"><i style="width:72%;"></i></div>
+    </div>
+    <div class="skill-card">
+      <div class="key">versioning</div>
+      <div class="val">Git &amp; GitHub</div>
+      <div class="bar"><i style="width:70%;"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="eyebrow">section 03</div>
+  <h2 class="section-title">Selected <span>projects</span></h2>
+  <div class="project-list">
+    <div class="project">
+      <div class="idx">01</div>
+      <div>
+        <h3>Personal Portfolio Website</h3>
+        <p>A responsive personal site built from scratch with HTML &amp; CSS — showcasing background, skills, and work in a clean, fast-loading layout.</p>
+        <div class="tags"><span>HTML</span><span>CSS</span><span>Responsive</span></div>
+      </div>
+    </div>
+    <div class="project">
+      <div class="idx">02</div>
+      <div>
+        <h3>Python Automation Scripts</h3>
+        <p>A set of small Python utilities for automating repetitive tasks — file handling, data cleanup, and quick command-line tools.</p>
+        <div class="tags"><span>Python</span><span>Automation</span></div>
+      </div>
+    </div>
+    <div class="project">
+      <div class="idx">03</div>
+      <div>
+        <h3>Java Console Applications</h3>
+        <p>Console-based applications written in Java covering core OOP concepts — data structures, simple logic systems, and CRUD-style programs.</p>
+        <div class="tags"><span>Java</span><span>OOP</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUME -->
+<section id="resume">
+  <div class="eyebrow">section 04</div>
+  <h2 class="section-title">Resume</h2>
+  <div class="resume-box">
+    <div>
+      <div class="label">// downloadable file</div>
+      <div class="filename">Rupchand_Resume.pdf</div>
+    </div>
+    <a class="btn btn-solid" href="https://drive.google.com/uc?export=download&id=1oSV5M8qh69zTatRiWFCteKr_SQpoEn3K" target="_blank" rel="noopener">Download PDF</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="eyebrow">section 05</div>
+  <h2 class="section-title">Get in <span>touch</span></h2>
+  <div class="contact-grid">
+    <a class="contact-item" href="mailto:faltuid2307@gmail.com">
+      <div class="key">EMAIL</div>
+      <div class="value">faltuid2307@gmail.com</div>
+    </a>
+    <a class="contact-item" href="tel:+919470200014">
+      <div class="key">PHONE</div>
+      <div class="value">+91 94702 00014</div>
+    </a>
+    <div class="contact-item">
+      <div class="key">LOCATION</div>
+      <div class="value">Meerut, Uttar Pradesh, India</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>&copy; 2026 Rupchand. All rights reserved.</div>
+  <div>Built with HTML &amp; CSS</div>
+</footer>
+
+</body>
+</html>

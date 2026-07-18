@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stillwater — Find your quiet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Sora:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#232136;
+    --plum:#3a3358;
+    --mist:#F3EFEA;
+    --paper:#FBF9F6;
+    --violet:#7C6FAE;
+    --sage:#8BA88A;
+    --sand:#D8CBB3;
+    --line: rgba(35,33,54,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Sora', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--violet);
+    display:inline-block;
+    margin-bottom:14px;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+
+  /* ===== NAV ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw;
+    background:rgba(251,249,246,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-size:1.35rem;
+    font-weight:500;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo-dot{
+    width:10px; height:10px; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, var(--sage), var(--violet));
+    animation: pulseDot 4s ease-in-out infinite;
+  }
+  @keyframes pulseDot{
+    0%,100%{ transform:scale(1); opacity:1; }
+    50%{ transform:scale(1.35); opacity:0.7; }
+  }
+  nav ul{
+    display:flex; gap:38px; list-style:none;
+  }
+  nav a{
+    font-size:0.92rem; color:var(--plum);
+    position:relative;
+  }
+  nav a::after{
+    content:''; position:absolute; left:0; bottom:-4px;
+    width:0; height:1px; background:var(--violet);
+    transition:width 0.3s ease;
+  }
+  nav a:hover::after{ width:100%; }
+  .nav-cta{
+    background:var(--ink); color:var(--paper);
+    padding:10px 22px; border-radius:100px;
+    font-size:0.88rem;
+    transition:background 0.3s ease, transform 0.3s ease;
+  }
+  .nav-cta:hover{ background:var(--violet); transform:translateY(-2px); }
+  .nav-links, .nav-cta{ display:flex; align-items:center; }
+  .nav-right{ display:flex; align-items:center; gap:38px; }
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    align-items:center;
+    gap:40px;
+    padding:8vh 6vw 10vh;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 60% 50% at 85% 20%, rgba(124,111,174,0.16), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 10% 90%, rgba(139,168,138,0.18), transparent 60%),
+      var(--paper);
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 5.2vw, 4.4rem);
+    color:var(--ink);
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--violet);
+  }
+  .hero p.lead{
+    margin-top:22px; max-width:460px;
+    font-size:1.08rem; color:var(--plum);
+  }
+  .hero-actions{
+    margin-top:36px; display:flex; gap:16px; align-items:center;
+  }
+  .btn-primary{
+    background:var(--ink); color:var(--paper);
+    padding:15px 30px; border-radius:100px;
+    font-size:0.95rem;
+    transition:transform 0.3s ease, background 0.3s ease;
+    display:inline-block;
+  }
+  .btn-primary:hover{ background:var(--violet); transform:translateY(-2px); }
+  .btn-ghost{
+    font-size:0.92rem; color:var(--plum);
+    border-bottom:1px solid var(--line);
+    padding-bottom:3px;
+    transition:border-color 0.3s ease, color 0.3s ease;
+  }
+  .btn-ghost:hover{ border-color:var(--ink); color:var(--ink); }
+
+  /* breathing circle — signature element */
+  .breathe-wrap{
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    height:440px;
+  }
+  .breathe-ring{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(124,111,174,0.35);
+  }
+  .ring-1{ width:180px; height:180px; animation: breathe 8s ease-in-out infinite; }
+  .ring-2{ width:180px; height:180px; animation: breathe 8s ease-in-out infinite; animation-delay:-2.6s; border-color:rgba(139,168,138,0.35); }
+  .ring-3{ width:180px; height:180px; animation: breathe 8s ease-in-out infinite; animation-delay:-5.2s; border-color:rgba(216,203,179,0.5); }
+  @keyframes breathe{
+    0%   { transform:scale(1);    opacity:0.9; }
+    50%  { transform:scale(2.15); opacity:0.15; }
+    100% { transform:scale(1);    opacity:0.9; }
+  }
+  .breathe-core{
+    position:relative; z-index:2;
+    width:180px; height:180px; border-radius:50%;
+    background: radial-gradient(circle at 32% 30%, #fff, var(--sand) 40%, var(--violet) 140%);
+    box-shadow: 0 20px 60px rgba(124,111,174,0.35);
+    display:flex; align-items:center; justify-content:center;
+    animation: coreScale 8s ease-in-out infinite;
+  }
+  @keyframes coreScale{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.12); }
+  }
+  .breathe-core span{
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem; letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink);
+    text-align:center;
+    animation: labelFade 8s ease-in-out infinite;
+  }
+  @keyframes labelFade{
+    0%,45%{ content:''; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .breathe-ring, .breathe-core, .logo-dot{ animation:none !important; }
+  }
+
+  /* ===== MARQUEE STRIP ===== */
+  .strip{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:16px 0; overflow:hidden; white-space:nowrap;
+    background:var(--mist);
+  }
+  .strip-track{
+    display:inline-flex; gap:60px;
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--plum);
+    animation: scroll-left 28s linear infinite;
+  }
+  @keyframes scroll-left{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+
+  /* ===== FEATURES ===== */
+  .section{ padding:12vh 6vw; }
+  .section-head{
+    max-width:640px; margin:0 auto 60px;
+    text-align:center;
+  }
+  .section-head h2{ font-size:clamp(2rem,3.4vw,2.7rem); }
+  .section-head p{ margin-top:16px; color:var(--plum); font-size:1.02rem; }
+
+  .cards{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;
+  }
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+    overflow:hidden;
+    transition:transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .card:hover{ transform:translateY(-8px); box-shadow:0 24px 50px rgba(35,33,54,0.1); }
+  .card-img{
+    height:210px; width:100%; object-fit:cover; display:block;
+  }
+  .card-body{ padding:26px 24px 30px; }
+  .card-body .eyebrow{ margin-bottom:10px; }
+  .card-body h3{ font-size:1.3rem; margin-bottom:10px; }
+  .card-body p{ font-size:0.94rem; color:var(--plum); }
+
+  /* ===== QUOTE ===== */
+  .quote-section{
+    background:var(--ink); color:var(--paper);
+    padding:14vh 6vw; text-align:center;
+    position:relative; overflow:hidden;
+  }
+  .quote-section::before{
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse 50% 60% at 50% 0%, rgba(124,111,174,0.35), transparent 70%);
+  }
+  .quote-section blockquote{
+    position:relative; z-index:1;
+    font-family:'Fraunces', serif;
+    font-style:italic; font-weight:400;
+    font-size:clamp(1.5rem, 3vw, 2.3rem);
+    max-width:780px; margin:0 auto;
+    line-height:1.35;
+  }
+  .quote-section cite{
+    position:relative; z-index:1;
+    display:block; margin-top:26px;
+    font-family:'Space Mono', monospace;
+    font-style:normal; font-size:0.8rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--sand);
+  }
+
+  /* ===== STEPS ===== */
+  .steps{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:40px;
+  }
+  .step{
+    padding:32px 0 0; border-top:1px solid var(--line);
+  }
+  .step .num{
+    font-family:'Space Mono', monospace; font-size:0.8rem; color:var(--violet);
+    margin-bottom:18px; display:block;
+  }
+  .step h3{ font-size:1.25rem; margin-bottom:10px; }
+  .step p{ color:var(--plum); font-size:0.94rem; }
+
+  /* ===== CTA BAND ===== */
+  .cta-band{
+    margin:0 6vw 10vh;
+    border-radius:28px;
+    padding:9vh 6vw;
+    background:
+      radial-gradient(ellipse 70% 90% at 20% 20%, rgba(139,168,138,0.35), transparent 60%),
+      radial-gradient(ellipse 70% 90% at 90% 90%, rgba(124,111,174,0.35), transparent 60%),
+      var(--mist);
+    text-align:center;
+  }
+  .cta-band h2{ font-size:clamp(2rem, 4vw, 3rem); }
+  .cta-band p{ color:var(--plum); margin:16px 0 34px; }
+
+  /* ===== FOOTER ===== */
+  footer{
+    padding:6vh 6vw 5vh;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:flex-start;
+    flex-wrap:wrap; gap:30px;
+    font-size:0.88rem; color:var(--plum);
+  }
+  .footer-cols{ display:flex; gap:60px; flex-wrap:wrap; }
+  .footer-cols h4{
+    font-family:'Space Mono', monospace; font-size:0.75rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--ink);
+    margin-bottom:14px;
+  }
+  .footer-cols ul{ list-style:none; display:flex; flex-direction:column; gap:9px; }
+  .footer-cols a:hover{ color:var(--ink); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:900px){
+    nav ul{ display:none; }
+    .hero{ grid-template-columns:1fr; text-align:center; }
+    .hero p.lead{ margin-left:auto; margin-right:auto; }
+    .hero-actions{ justify-content:center; }
+    .breathe-wrap{ height:320px; }
+    .cards{ grid-template-columns:1fr; }
+    .steps{ grid-template-columns:1fr; }
+    footer{ flex-direction:column; }
+  }
+
+  :focus-visible{
+    outline:2px solid var(--violet);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="logo-dot"></span>Stillwater</div>
+  <nav class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#practice">Practice</a></li>
+      <li><a href="#steps">How it works</a></li>
+      <li><a href="#stories">Stories</a></li>
+    </ul>
+    <a href="#start" class="nav-cta">Begin free</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <span class="eyebrow">Three minutes a day</span>
+    <h1>Breathe in.<br><em>Begin</em> here.</h1>
+    <p class="lead">Stillwater is a quiet corner of the internet built for slowing down — guided breathing, unhurried sleep stories, and music made for a racing mind.</p>
+    <div class="hero-actions">
+      <a href="#start" class="btn-primary">Start your first session</a>
+      <a href="#steps" class="btn-ghost">See how it works</a>
+    </div>
+  </div>
+  <div class="breathe-wrap">
+    <div class="breathe-ring ring-1"></div>
+    <div class="breathe-ring ring-2"></div>
+    <div class="breathe-ring ring-3"></div>
+    <div class="breathe-core"><span>breathe</span></div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-track">
+    <span>Guided Meditation</span><span>Sleep Stories</span><span>Focus Music</span><span>Breathing Exercises</span><span>Body Scans</span>
+    <span>Guided Meditation</span><span>Sleep Stories</span><span>Focus Music</span><span>Breathing Exercises</span><span>Body Scans</span>
+  </div>
+</div>
+
+<section class="section" id="practice">
+  <div class="section-head">
+    <span class="eyebrow">Practice</span>
+    <h2>Pick a moment. Any moment.</h2>
+    <p>Whatever the day is doing to you, there's a short practice built for exactly that feeling.</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <img class="card-img" src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=450&fit=crop" alt="Calm lake at sunrise">
+      <div class="card-body">
+        <span class="eyebrow">Morning</span>
+        <h3>Wake with intention</h3>
+        <p>A gentle 5-minute breathing session to start the day clear-headed, not rushed.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img" src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600&h=450&fit=crop" alt="Person sitting quietly in nature">
+      <div class="card-body">
+        <span class="eyebrow">Midday</span>
+        <h3>Reset your focus</h3>
+        <p>Ten minutes to quiet the noise between meetings and come back sharper.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img" src="https://images.unsplash.com/photo-1502472584811-0a2f2feb8968?w=600&h=450&fit=crop" alt="Night sky over calm water">
+      <div class="card-body">
+        <span class="eyebrow">Night</span>
+        <h3>Sleep, unhurried</h3>
+        <p>Slow, spoken stories and soft tones designed to ease you into real rest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quote-section" id="stories">
+  <blockquote>"Three minutes with Stillwater does more for my mind than an hour of scrolling ever could."</blockquote>
+  <cite>— A daily user, on year two of practice</cite>
+</section>
+
+<section class="section" id="steps">
+  <div class="section-head">
+    <span class="eyebrow">How it works</span>
+    <h2>Three minutes to quiet</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <span class="num">01</span>
+      <h3>Choose a feeling</h3>
+      <p>Stressed, restless, tired, unfocused — tell us where you are, not where you should be.</p>
+    </div>
+    <div class="step">
+      <span class="num">02</span>
+      <h3>Follow the breath</h3>
+      <p>A soft voice and a slow-moving circle guide your inhale and exhale, at your own pace.</p>
+    </div>
+    <div class="step">
+      <span class="num">03</span>
+      <h3>Carry it with you</h3>
+      <p>No streaks to maintain, no guilt for missed days. Just come back when you need to.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band" id="start">
+  <h2>Your quiet is waiting.</h2>
+  <p>No credit card. No pressure. Just three minutes.</p>
+  <a href="#" class="btn-primary">Begin free</a>
+</section>
+
+<footer>
+  <div class="logo"><span class="logo-dot"></span>Stillwater</div>
+  <div class="footer-cols">
+    <div>
+      <h4>Practice</h4>
+      <ul>
+        <li><a href="#practice">Meditate</a></li>
+        <li><a href="#practice">Sleep</a></li>
+        <li><a href="#practice">Focus</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Twitter</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
